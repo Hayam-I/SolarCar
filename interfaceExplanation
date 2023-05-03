@@ -72,3 +72,41 @@ gg_VtB.config(font=('Times New Roman',50))
 gg_VtB.place(relx=0.625, rely=0.00, anchor="n")
 
 #These lines create labels for power in W and voltage in V.
+
+gg_ItB=tk.Label(mwin,text="0 A")
+gg_ItB.config(font=('Times New Roman',90))
+gg_ItB.place(relx=0.2, rely=0.3, anchor="n")
+'''The third line of code is placing the label on the tkinter window 'mwin' at the relative x position of 0.2 and relative y position of 0.3. The 'anchor' parameter is set to "n", which means the label is anchored to the north of its position. In other words, the label's center point will be located 20% of the way across the window's horizontal axis and 30% of the way down the window's vertical axis.'''
+
+
+label_led_ComStatM=tk.Label(text="Comm\nStatM",font=("Courier",12),relief=tk.RAISED,fg="black",bg="silver",width=5,height=2)
+label_led_ComStatM.place(relx=0.6, rely=0.65, anchor="n")
+led_ComStatM=tk_tools.Led(mwin, size=28)
+led_ComStatM.place(relx=0.685, rely=0.65, anchor="n")
+led_ComStatM.to_red(on=True)
+
+'''The third line creates a LED (Light-Emitting Diode) using the `Led` constructor from the `tk_tools` module. 
+The fourth line uses the `place` method to place the LED relative to the label's position. 
+Finally, the `to_red` method is called on the LED instance to turn on its red light. This code is likely being used to indicate the status of some sort of communication or device connection/status.'''
+
+labelTxtBxB=tk.Label(text="Incoming Battery Messages",font=("Courier",12),relief=tk.RAISED,fg="black",bg="silver",width=25,height=1)
+labelTxtBxB.place(relx=0.85, rely=0.00, anchor="n")
+TxtBxB=scrolledtext.ScrolledText(mwin,wrap=tk.WORD,relief=tk.SUNKEN,width=30,height=6, font=("Times New Roman",12))
+TxtBxB.place(relx=0.85, rely=0.05, anchor="n")
+TxtBxB.insert(tk.INSERT,"No Incoming Data \n")
+TxtBxB.delete(1.0,tk.END) # Use this to delete the text in the scrolled textbox
+
+flag_keep_connect=True
+
+os.system('sudo ip link set can0 type can bitrate 250000')
+os.system('sudo ifconfig can0 up')
+
+'''
+This code is creating a GUI window using the tkinter library with a label and a scrolled text box. The label displays the text "Incoming Battery Messages" with some formatting, and the scrolled text box displays any incoming data related to battery messages. Initially, the scrolled text box will display the text "No Incoming Data". The code then sets a flag called "flag_keep_connect" to True. 
+Next, two system commands are executed using the "os" library: the first command sets up a new CAN network interface named "can0" with a bit rate of 250000 bits per second, and the second command activates the interface. These commands imply that the program is meant to receive CAN messages from a CAN bus.
+Note that the code does not contain any event handling or loop structures that would indicate how incoming data is processed.
+'''
+
+can0 = can.interface.Bus(channel = 'can0', bustype = 'socketcan')# socketcan_native
+#This line of code creates a CAN interface object named `can0` using the `can.interface` library. The `Bus()` function is used to specify the channel and the bustype. In this case, `channel='can0'` specifies that the interface is connected to the can0 channel, while `bustype='socketcan'` specifies that a SocketCAN interface should be used. SocketCAN is a Linux networking stack that allows the Linux kernel to communicate with CAN devices via their CAN bus drivers.
+
