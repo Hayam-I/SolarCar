@@ -1,0 +1,74 @@
+import os
+import can
+import struct
+import numpy as np
+import tkinter as tk
+from tkinter import scrolledtext
+import tk_tools
+from tkinter import Label
+import error_reader
+from cloud_update import get_data 
+
+#This code imports several libraries such as os, can, struct, numpy, tkinter and others. It also imports two functions from two different files.
+
+
+mwin=tk.Tk() 
+mwin.geometry('1000x500')
+mwin.title("BSCP Driver Interface")
+mwin.configure(bg="grey")
+
+#This code creates a window with dimensions 1000x500 and sets the title to "BSCP Driver Interface". The background color of the window is set to grey.
+
+
+msgID_mot=7
+msgID_bat=9
+
+#These lines define two variables `msgID_mot` and `msgID_bat` and assign them values 7 and 9 respectively.
+
+
+labelTxtBxM=tk.Label(text="Incoming Motor Messages",font=("Courier",12),relief=tk.RAISED,fg="black",bg="silver",width=25,height=1)
+labelTxtBxM.place(relx=0.85, rely=0.45, anchor="n")
+
+#This code creates a label for incoming motor messages.
+
+
+TxtBxM=scrolledtext.ScrolledText(mwin,wrap=tk.WORD,relief=tk.SUNKEN,width=30,height=6, font=("Times New Roman",12))
+TxtBxM.place(relx=0.85, rely=0.50, anchor="n")
+TxtBxM.insert(tk.INSERT,"No Incoming Data   \n")
+TxtBxM.delete(1.0,tk.END)
+
+#This code creates a scrolled text box to display incoming motor messages.
+
+
+gg_rpm=tk_tools.Gauge(mwin,min_value=-1,max_value=3000.0, width=00, height=00,yellow=70, red=90, yellow_low=0, red_low=0, divisions=10,label='Motor RPM', unit='rpm', bg='silver')
+gg_rpm.place(relx=0.4, rely=0.3, anchor="n")
+gg_rpm.set_value(0)
+
+#This code creates a gauge for motor RPM and sets its minimum value to -1 and maximum value to 3000. The gauge has yellow and red zones at 70 and 90 respectively.
+
+
+gg_kph=tk.Label(mwin,text="0 Kph")
+gg_kph.config(font=('Times New Roman',90))
+gg_kph.place(relx=0.25, rely=0.0, anchor="n")
+
+#This code creates a label for speed in Kph.
+
+
+label_led_ComStatM=tk.Label(text="Comm\nStatM",font=("Courier",12),relief=tk.RAISED,fg="black",bg="silver",width=5,height=2)
+label_led_ComStatM.place(relx=0.6, rely=0.65, anchor="n")
+led_ComStatM=tk_tools.Led(mwin, size=28)
+led_ComStatM.place(relx=0.685, rely=0.65, anchor="n")
+led_ComStatM.to_red(on=True)
+
+#This code creates a label for communication status of motor messages and an LED to indicate the status.
+
+
+gg_Pwr=tk.Label(mwin,text="0 W")
+gg_Pwr.config(font=('Times New Roman',50))
+gg_Pwr.place(relx=0.2, rely=0.60, anchor="n")
+
+gg_VtB=tk.Label(mwin,text="0 V")
+gg_VtB.config(font=('Times New Roman',50))
+gg_VtB.place(relx=0.625, rely=0.00, anchor="n")
+
+#These lines create labels for power in W and voltage in V.
